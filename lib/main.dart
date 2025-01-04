@@ -4,6 +4,7 @@ import 'package:habtrack/models/app_state_manager.dart';
 import 'package:habtrack/screens/register.dart';
 import 'package:habtrack/screens/sign_in.dart';
 import 'package:habtrack/screens/splash_screen.dart';
+import 'package:habtrack/screens/suggestion.dart';
 import 'package:provider/provider.dart';
 
 void main() {
@@ -37,6 +38,10 @@ class MyApp extends StatelessWidget {
           path: '/register',
           builder: (BuildContext context, GoRouterState state) => const Register(),
         ),
+        GoRoute(
+            path: '/suggestion',
+          builder: (BuildContext context, GoRouterState state) => SuggestionScreen(),
+        )
       ],
       redirect: (BuildContext context, GoRouterState state) {
         final bool isOnRegisterScreen = state.matchedLocation == '/register';
@@ -54,6 +59,10 @@ class MyApp extends StatelessWidget {
         // Redirect to sign-in if initialized but not signed in
         if (appStateManager.initialized && !appStateManager.signedIn) {
           return '/signin';
+        }
+
+        if (appStateManager.initialized && appStateManager.signedIn) {
+          return '/suggestion';
         }
 
         // No redirect

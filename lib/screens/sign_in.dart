@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:habtrack/constants/rounded_button.dart';
 import 'package:go_router/go_router.dart';
+import 'package:habtrack/models/app_state_manager.dart';
+import 'package:provider/provider.dart';
 import '../constants/style.dart';
 
 class SignInScreen extends StatelessWidget {
@@ -37,7 +39,10 @@ class SignInScreen extends StatelessWidget {
             RoundedButton(
               color: Colors.green,
               title: 'Sign In',
-              onPress: () {},
+              onPress: () {
+                Provider.of<AppStateManager>(context, listen: false).signIn();
+                context.go('/suggestion');
+              },
             ),
             Text("Don't have an account?"),
             RoundedButton(

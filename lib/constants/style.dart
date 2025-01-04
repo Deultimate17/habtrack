@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import 'color.dart';
 
 const kInputDecoration = InputDecoration(
   filled: true,
@@ -21,4 +20,10 @@ const kTextStyle = TextStyle(
     fontWeight: FontWeight.bold,
     fontSize: 46, fontFamily: 'Barlow',
     color: Colors.green
+);
+
+const kOptionStyle = TextStyle(
+  fontWeight: FontWeight.w500,
+  fontSize: 18,
+  fontFamily: 'Montserrat'
 );
