@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:habtrack/models/app_state_manager.dart';
+import 'package:habtrack/screens/habit_screen.dart';
 import 'package:habtrack/screens/register.dart';
 import 'package:habtrack/screens/sign_in.dart';
 import 'package:habtrack/screens/splash_screen.dart';
@@ -41,10 +42,16 @@ class MyApp extends StatelessWidget {
         GoRoute(
             path: '/suggestion',
           builder: (BuildContext context, GoRouterState state) => SuggestionScreen(),
+        ),
+        GoRoute (
+          path: '/habit',
+          builder: (BuildContext context, GoRouterState state) => HabitScreen()
         )
       ],
       redirect: (BuildContext context, GoRouterState state) {
         final bool isOnRegisterScreen = state.matchedLocation == '/register';
+        final bool isOnHabitScreen = state.matchedLocation == '/habit';
+
 
         // Redirect to the splash screen if not initialized
         if (!appStateManager.initialized) {
@@ -53,6 +60,10 @@ class MyApp extends StatelessWidget {
 
         // Allow access to the register screen
         if (isOnRegisterScreen) {
+          return null;
+        }
+
+        if (isOnHabitScreen) {
           return null;
         }
 

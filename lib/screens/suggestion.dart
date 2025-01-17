@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:habtrack/constants/style.dart';
 
 class SuggestionScreen extends StatelessWidget {
@@ -26,7 +27,13 @@ class SuggestionScreen extends StatelessWidget {
               SizedBox(height: 10.0,),
               Options(title: 'Follow my suggestions',),
               SizedBox(height: 10.0,),
-              Options(title: 'Create your own')
+              InkWell(
+                onTap: () {
+                  context.go('/habit');
+                  print('hello');
+                },
+                  child: Options(title: 'Create your own')
+              )
             ],
           ),
         ),
