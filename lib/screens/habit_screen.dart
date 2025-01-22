@@ -1,17 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-
+import 'package:habtrack/models/habit.dart';
+import 'package:provider/provider.dart';
 import '../constants/style.dart';
 
 class HabitScreen extends StatefulWidget {
-  const HabitScreen({super.key});
+  final List<Habit> habits;
+  const HabitScreen({super.key, required this.habits,});
 
   @override
   State<HabitScreen> createState() => _HabitScreenState();
 }
 
 class _HabitScreenState extends State<HabitScreen> {
-  DateTimeRange? selectedRange;
+  String textTask = '';
+
+
+  
+  void addHabit (String newHabit) {
+    final habit = Habit(name: newHabit);
+     widget.habits.add(habit);
+  }
+  // DateTimeRange? selectedRange;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,46 +50,83 @@ class _HabitScreenState extends State<HabitScreen> {
              SizedBox(width: 20,),
              Expanded(
                child: TextField(
-                 style: TextStyle(color: Colors.black),
-                 decoration: InputDecoration(
-                   hintText: 'Name(Type here)',
-                   enabledBorder: UnderlineInputBorder(
-                     borderSide: BorderSide(color: Colors.black),
-                   ),
-                   focusedBorder: UnderlineInputBorder(
-                     borderSide: BorderSide(color: Colors.black)
-                   ),
-                   border:  UnderlineInputBorder(
-                     borderSide: BorderSide(color: Colors.black)
-                   )
-                 ),
+                 autofocus: true,
+                 textAlign: TextAlign.center,
+                 onChanged: (newText) {
+                   setState(() {
+                     textTask = newText;
+                   });
+                   print(textTask);
+                 },
                ),
              ),
            ],
          ),
-          Text('Date'),
-          IconButton(
-              onPressed: () async {
-                final DateTime now = DateTime.now();
-                final picked = await showDateRangePicker(
-                    context: context,
-                    firstDate: now,
-                    lastDate: DateTime(9999),
-                  initialDateRange: DateTimeRange(
-                      start: now,
-                      end: now.add(Duration(days: 0))),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Row(
+                children: [
+                  Text('Start: '),
+                  Row(
+                    children: [
+                      SizedBox(
+                        width: 50,
+                          child: UnBoundedTextField(hint: '')
+                      ),
+                    ],
+                  ),
 
-                );
-                if (picked != null) {
-                  setState(() {
-                    selectedRange = picked;
-                  });
-                }
-              },
-              icon: Icon(Icons.calendar_today)
-          )
+                  Text('End: '),
+                  Row(
+                    children: [
+                      SizedBox(
+                          width: 50,
+                          child: UnBoundedTextField(hint: '')
+                      ),
+                    ],
+                  )
+                ]
 
+              )
+            ],
+          ),
+         ElevatedButton(
+             onPressed: () {
+               if (textTask.trim().isNotEmpty) {
+                 addHabit(textTask);
+                 context.go('/habitScreen');
+               }
+             },
+             child: Text('Done')
+         )
         ],
+      ),
+    );
+  }
+}
+
+class UnBoundedTextField extends StatelessWidget {
+  const UnBoundedTextField({
+    super.key, required this.hint,
+  });
+  final String hint;
+
+  @override
+  Widget build(BuildContext context) {
+    return TextField(
+      style: TextStyle(color: Colors.black),
+      decoration: InputDecoration(
+        hintText: hint,
+        enabledBorder: UnderlineInputBorder(
+          borderSide: BorderSide(color: Colors.black),
+        ),
+        focusedBorder: UnderlineInputBorder(
+          borderSide: BorderSide(color: Colors.black)
+        ),
+        border:  UnderlineInputBorder(
+          borderSide: BorderSide(color: Colors.black)
+        )
       ),
     );
   }

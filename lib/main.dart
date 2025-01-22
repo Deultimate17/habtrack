@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:habtrack/models/app_state_manager.dart';
+import 'package:habtrack/screens/habit_home_screen.dart';
 import 'package:habtrack/screens/habit_screen.dart';
 import 'package:habtrack/screens/register.dart';
 import 'package:habtrack/screens/sign_in.dart';
 import 'package:habtrack/screens/splash_screen.dart';
 import 'package:habtrack/screens/suggestion.dart';
 import 'package:provider/provider.dart';
+
+import 'models/habit.dart';
 
 void main() {
   runApp(
@@ -23,7 +26,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final appStateManager = Provider.of<AppStateManager>(context, listen: false);
-
+    List<Habit> habits = [];
     final GoRouter router = GoRouter(
       refreshListenable: appStateManager,
       routes: [
@@ -45,12 +48,17 @@ class MyApp extends StatelessWidget {
         ),
         GoRoute (
           path: '/habit',
-          builder: (BuildContext context, GoRouterState state) => HabitScreen()
+          builder: (BuildContext context, GoRouterState state) => HabitScreen(habits: habits,)
+        ),
+        GoRoute(
+            path: '/habitScreen',
+          builder: (BuildContext context, GoRouterState state) => HabitHomeScreen(habits: habits,)
         )
       ],
       redirect: (BuildContext context, GoRouterState state) {
         final bool isOnRegisterScreen = state.matchedLocation == '/register';
         final bool isOnHabitScreen = state.matchedLocation == '/habit';
+        final bool isOnAddScreen = state.matchedLocation == '/habitScreen';
 
 
         // Redirect to the splash screen if not initialized
@@ -64,6 +72,9 @@ class MyApp extends StatelessWidget {
         }
 
         if (isOnHabitScreen) {
+          return null;
+        }
+        if (isOnAddScreen) {
           return null;
         }
 
